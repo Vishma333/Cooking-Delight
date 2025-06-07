@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books | Cooking Delight</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --primary-color: #FF6700;
+            --primary-hover: #E65100;
+            --secondary-color: #F0EAD6;
+            --dark-color: #1a1a1a;
+            --text-color: #333;
+            --light-text-color: #FFFFFF;
+            --background-light: #f8f7f2;
+            --font-headings: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+            --container-width: 1200px;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: auto; }
+        body { font-family: var(--font-body); color: var(--text-color); background-color: white; line-height: 1.7; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transition: opacity 0.4s ease-out; }
+        body.fade-out { opacity: 0; }
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 600; color: var(--dark-color); }
+        h2 { font-size: clamp(2.5rem, 5vw, 3.25rem); }
+        section { padding: 100px 0; overflow: hidden; }
+        .animated-element { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .animated-element.visible { opacity: 1; transform: translateY(0); }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 4px; border-radius: 4px; }
+        .cta-button { display: inline-block; background-color: var(--primary-color); color: var(--light-text-color); padding: 1rem 2.5rem; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); will-change: transform; }
+        .cta-button:hover { transform: translateY(-5px); background-color: var(--primary-hover); box-shadow: 0 15px 25px -10px var(--primary-hover); }
+        .header { padding: 1.5rem 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; transition: all 0.35s ease-in-out; background-color: rgba(255, 255, 255, 0.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; text-decoration: none; color: var(--primary-color); }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 2.5rem; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; position: relative; padding-bottom: 0.5rem; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--primary-color); transition: width 0.3s ease; }
+        
+        /* UPDATED CSS: Combined hover state with a new .active-link class */
+        .nav-links a:hover,
+        .nav-links a.active-link { 
+            color: var(--primary-color); 
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active-link::after { 
+            width: 100%; 
+        }
+        
+        .nav-toggle { display: none; }
+        main { padding-top: 100px; }
+        .page-header { background-color: var(--background-light); text-align: center; padding: 80px 0; }
+        .page-header h1 { font-size: clamp(3rem, 6vw, 4rem); margin-bottom: 1rem; }
+        .page-header p { font-size: 1.25rem; color: #555; max-width: 650px; margin: 0 auto; }
+        #featured-book .container { display: flex; align-items: center; gap: 5rem; }
+        .featured-book-image { flex: 0 0 40%; text-align: center; }
+        .featured-book-image img { max-width: 100%; width: 400px; border-radius: 8px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); transition: transform 0.4s ease; }
+        .featured-book-image img:hover { transform: scale(1.05) rotate(-2deg); }
+        .featured-book-details { flex: 1 1 60%; }
+        .featured-book-details .tagline { color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; display: block; }
+        .featured-book-details h2 { margin-bottom: 2rem; }
+        .featured-book-details .features { list-style: none; padding: 0; margin: 2rem 0; }
+        .featured-book-details .features li { position: relative; padding-left: 2rem; margin-bottom: 1rem; }
+        .featured-book-details .features li::before { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--primary-color); position: absolute; left: 0; font-size: 1rem; }
+        .purchase-options { margin-top: 2.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .retailer-button { display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.5rem; background: #f1f1f1; color: var(--text-color); text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
+        .retailer-button i { font-size: 1.5rem; }
+        .retailer-button:hover { background: var(--dark-color); color: white; transform: translateY(-3px); }
+        #testimonials { background-color: var(--background-light); }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+        .testimonial-card { background: white; padding: 2.5rem 2rem; border-radius: 10px; border-left: 5px solid var(--primary-color); box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05); }
+        .testimonial-card .quote-icon { font-size: 2.5rem; color: var(--secondary-color); margin-bottom: 1rem; }
+        .testimonial-card blockquote { border: none; padding: 0; margin: 0 0 1.5rem 0; font-size: 1.1rem; font-style: italic; color: #444; }
+        .testimonial-card cite { font-weight: 700; font-style: normal; }
+        .testimonial-card cite span { display: block; font-weight: 400; font-size: 0.9rem; color: #777; }
+        #other-books { background: white; }
+        .other-books-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2.5rem; margin-top: 4rem; }
+        .book-card { text-align: center; }
+        .book-card img { max-width: 100%; border-radius: 8px; box-shadow: 0 15px 30px -10px rgba(0,0,0,0.2); margin-bottom: 1.5rem; transition: all 0.4s ease; }
+        .book-card:hover img { transform: translateY(-10px) scale(1.05); box-shadow: 0 25px 40px -10px rgba(0,0,0,0.25); }
+        .book-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .book-card .button-disabled { display: inline-block; background-color: #e0e0e0; color: #9e9e9e; padding: 1rem 2.5rem; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: not-allowed; margin-top: 1rem; }
+        footer { background-color: var(--dark-color); color: rgba(255, 255, 255, 0.6); padding: 80px 0 30px 0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 4rem; margin-bottom: 4rem; }
+        .footer-col h4 { color: var(--light-text-color); font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .footer-logo { font-size: 1.6em; }
+        .footer-col ul { list-style: none; padding: 0; } .footer-col li { margin-bottom: 1rem; }
+        .footer-col a { color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.3s ease; }
+        .footer-col a:hover, .footer-logo:hover { color: var(--primary-color); }
+        .footer-socials { margin-top: 1.5rem; display: flex; gap: 1.25rem; }
+        .footer-socials a { font-size: 1.5rem; color: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+        .footer-socials a:hover { color: var(--primary-color); transform: translateY(-3px); }
+        .subscribe-form { margin-top: 1.5rem; display: flex; }
+        .subscribe-input { flex-grow: 1; border: 1px solid #444; background: #222; padding: 0.8rem; border-radius: 5px 0 0 5px; color: var(--light-text-color); font-family: var(--font-body); }
+        .subscribe-button { background: var(--primary-color); border: none; color: white; padding: 0.8rem 1.2rem; border-radius: 0 5px 5px 0; cursor: pointer; }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid #333; }
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { main { padding-top: 80px; } section { padding: 80px 0; } #featured-book .container { flex-direction: column; gap: 3rem; } .footer-grid { grid-template-columns: 1fr; text-align: center; } .subscribe-form, .footer-socials { justify-content: center; } .nav-links { position: fixed; top: 0; right: -100%; height: 100vh; width: 70%; background-color: white; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; box-shadow: -5px 0 15px rgba(0,0,0,0.1); } .nav-links.active { right: 0; } .nav-links li { margin: 1.5rem 0; } .nav-toggle { display: block; z-index: 1001; font-size: 1.5rem; cursor: pointer; color: var(--dark-color); background: none; border: none; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="container navbar">
+            <a href="home.html" class="logo">Cooking Delight</a>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle Navigation Menu"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+    <main>
+        <section class="page-header"><div class="container animated-element"><h1>From Our Kitchen to Yours</h1><p>Discover our collection of curated recipe books, designed to bring the authentic and vibrant flavors of India right to your home.</p></div></section>
+        <section id="featured-book"><div class="container"><div class="featured-book-image animated-element"><img src="https://i.supaimg.com/75ed7bac-ed04-47f4-9cff-ee215ac45989.jpg" alt="Cover of the Cooking Delight cookbook"></div><div class="featured-book-details animated-element"><span class="tagline">Our Signature Collection</span><h2>Cooking Delight: A Culinary Journey</h2><p>This is more than a cookbook—it's an invitation. Journey with us through the diverse landscapes of Indian cuisine, from the bustling street food stalls of Mumbai to the serene coastal kitchens of Kerala. Each recipe is a family treasure, tested for generations and refined for the modern cook.</p><h4>What's Inside:</h4><ul class="features"><li>Over 100+ authentic vegetarian and non-vegetarian recipes.</li><li>Stunning, high-resolution photography for every single dish.</li><li>Dedicated chapters on mastering spice blends and essential techniques.</li><li>Personal stories and anecdotes that bring the recipes to life.</li></ul><div class="purchase-options"><a href="javascript:void(0);" class="retailer-button"><i class="fa-brands fa-amazon"></i> Buy on Amazon</a><a href="javascript:void(0);" class="retailer-button"><i class="fa-brands fa-apple"></i> Buy on Apple Books</a></div></div></div></section>
+        <section id="testimonials"><div class="container"><div class="section-header animated-element" style="text-align: center; max-width: 800px; margin: 0 auto;"><h2>What Readers Are Saying</h2></div><div class="testimonial-grid"><div class="testimonial-card animated-element"><div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div><blockquote>"The most authentic Indian cookbook I've ever owned. The photography is breathtaking, and the recipes are foolproof. A masterpiece."</blockquote><cite>Anjali Sharma <span>Food Critic, The Culinary Times</span></cite></div><div class="testimonial-card animated-element" style="transition-delay: 200ms;"><div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div><blockquote>"This book has demystified Indian cooking for me. The 'spice blends' chapter alone is worth the price. I finally made a perfect Dal Makhani!"</blockquote><cite>David Chen <span>Chef & Restaurant Owner</span></cite></div><div class="testimonial-card animated-element" style="transition-delay: 400ms;"><div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div><blockquote>"More than recipes, this book tells a story. It has brought my family together in the kitchen. An instant classic for any food lover."</blockquote><cite>Priya Patel <span>Home Cook & Blogger</span></cite></div></div></div></section>
+        <section id="other-books"><div class="container"><div class="section-header animated-element" style="text-align: center; max-width: 800px; margin: 0 auto;"><h2>Explore Our Other Titles</h2></div><div class="other-books-grid"><div class="book-card animated-element"><img src="https://i.supaimg.com/2f524802-c4fc-47f5-b5cf-207da634a721.jpg" alt="Cover of Indian Flavors book"><h3>Indian Flavors</h3><p>A deep dive into the regional spices that define India's culinary map.</p></div><div class="book-card animated-element" style="transition-delay: 200ms;"><img src="https://i.supaimg.com/c9e1d081-2601-4630-a3b5-bd3e20df6654.jpg" alt="Cover of 30-Minute Meals book"><h3>30-Minute Meals</h3><p>Delicious and authentic Indian dishes for your busiest weeknights.</p></div><div class="book-card animated-element" style="transition-delay: 400ms;"><img src="https://i.supaimg.com/f6f6ae68-2e5b-4dea-816f-a11fd35cfb49.jpg" alt="Cover of Street Food Stories book"><h3>Street Food Stories</h3><p>Explore the vibrant, chaotic, and utterly delicious world of Indian street food.</p><span class="cta-button button-disabled">Coming Soon</span></div></div></div></section>
+    </main>
+    <footer id="footer"><div class="container"><div class="footer-grid"><div class="footer-col"><a href="home.html" class="footer-logo logo">Cooking Delight</a><p>Preserving the authenticity of Indian cuisine for food lovers worldwide.</p><div class="footer-socials"><a href="javascript:void(0);" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="javascript:void(0);" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="javascript:void(0);" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a></div></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a href="home.html">Home</a></li><li><a href="books.html">Books</a></li><li><a href="blogs.html">Blogs</a></li><li><a href="about.html">About</a></li></ul></div><div class="footer-col"><h4>Explore</h4><ul><li><a href="javascript:void(0);">All Recipes</a></li><li><a href="javascript:void(0);">Careers</a></li><li><a href="javascript:void(0);">Privacy Policy</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-col"><h4>Subscribe</h4><p>Get the latest recipes delivered to your inbox.</p><form class="subscribe-form" onsubmit="alert('Thank you for subscribing!'); return false;"><input type="email" placeholder="Your Email" aria-label="Your Email" class="subscribe-input" required><button type="submit" class="subscribe-button" aria-label="Subscribe"><i class="fa-solid fa-paper-plane"></i></button></form></div></div><div class="footer-bottom"><p>© 2024 Cooking Delight. All Rights Reserved. Crafted with ❤️ in India.</p></div></div></footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Page transition script
+        document.body.addEventListener('click', function(e) { const link = e.target.closest('a'); if (link && link.href && !link.href.startsWith(window.location.origin + '/#') && link.target !== '_blank' && !link.href.includes('javascript:')) { const url = new URL(link.href); if (url.origin === window.location.origin && url.pathname === window.location.pathname) { return; } const fileExtension = url.pathname.split('.').pop(); if (['pdf', 'jpg', 'png', 'zip'].includes(fileExtension)) return; e.preventDefault(); document.body.classList.add('fade-out'); setTimeout(() => { window.location.href = link.href; }, 400); } });
+        
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle'); const navLinks = document.querySelector('.nav-links'); if (navToggle) { navToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); navToggle.querySelector('i').classList.toggle('fa-bars'); navToggle.querySelector('i').classList.toggle('fa-times'); }); }
+        
+        // Intersection observer for animations
+        const animatedElements = document.querySelectorAll('.animated-element'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 }); animatedElements.forEach(el => observer.observe(el));
+    
+        // --- NEW SCRIPT FOR ACTIVE NAVIGATION LINK ---
+        const currentPage = window.location.pathname.split('/').pop();
+        const allNavLinks = document.querySelectorAll('.nav-links a');
+        allNavLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active-link');
+            }
+        });
+        // --- END OF NEW SCRIPT ---
+    });
+    </script>
+</body>
+</html>

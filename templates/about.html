@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Cooking Delight</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --primary-color: #FF6700;
+            --primary-hover: #E65100;
+            --secondary-color: #F0EAD6;
+            --dark-color: #1a1a1a;
+            --text-color: #333;
+            --light-text-color: #FFFFFF;
+            --background-light: #f8f7f2;
+            --font-headings: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+            --container-width: 1200px;
+        }
+        
+        /* --- Global Styles & Resets --- */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); color: var(--text-color); background-color: white; line-height: 1.7; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transition: opacity 0.4s ease-out; }
+        body.fade-out { opacity: 0; }
+        ::selection { background: var(--primary-color); color: var(--light-text-color); }
+
+        /* --- Layout & Typography --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 600; color: var(--dark-color); }
+        h2 { font-size: clamp(2.5rem, 5vw, 3.25rem); }
+        h3 { font-size: 1.5rem; }
+        section { padding: 100px 0; overflow: hidden; }
+        .section-header { text-align: center; max-width: 800px; margin: 0 auto 4rem auto; }
+        
+        /* --- Animations & Transitions --- */
+        .animated-element { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .animated-element.visible { opacity: 1; transform: translateY(0); }
+        
+        /* --- Components --- */
+        a { text-decoration: none; color: inherit; }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 4px; border-radius: 4px; }
+        .cta-button { display: inline-block; background-color: var(--primary-color); color: var(--light-text-color); padding: 1rem 2.5rem; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); will-change: transform; }
+        .cta-button:hover { transform: translateY(-5px); background-color: var(--primary-hover); box-shadow: 0 15px 25px -10px var(--primary-hover); }
+        
+        /* --- Header & Navigation --- */
+        .header { padding: 1.5rem 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; transition: all 0.35s ease-in-out; background-color: rgba(255, 255, 255, 0.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; text-decoration: none; color: var(--primary-color); }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 2.5rem; }
+        .nav-links a { color: var(--text-color); font-weight: 500; position: relative; padding-bottom: 0.5rem; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--primary-color); transition: width 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a[aria-current="page"] { color: var(--primary-color); }
+        .nav-links a[aria-current="page"]::after { width: 100%; }
+        .nav-toggle { display: none; }
+        
+        /* --- Main Content & Page Header --- */
+        main { padding-top: 100px; }
+        .page-header { background-color: var(--background-light); text-align: center; padding: 80px 0; }
+        .page-header h1 { font-size: clamp(3rem, 6vw, 4rem); margin-bottom: 1rem; }
+        .page-header p { font-size: 1.25rem; color: #555; max-width: 650px; margin: 0 auto; }
+        
+        /* --- About Page Specific Styles --- */
+        #our-story .container { display: flex; align-items: center; gap: 5rem; }
+        .story-image { flex: 1 1 45%; }
+        .story-image img { width: 100%; border-radius: 10px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .story-content { flex: 1 1 55%; }
+        .story-content h2 { margin-bottom: 2rem; }
+        .story-content p { margin-bottom: 1.5rem; color: #555; }
+
+        #our-philosophy { background-color: var(--background-light); }
+        .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+        .philosophy-item { text-align: center; padding: 2rem; }
+        .philosophy-item .icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem; display: inline-block; transition: transform 0.3s ease; }
+        .philosophy-item:hover .icon { transform: scale(1.1) translateY(-5px); }
+        .philosophy-item h4 { font-size: 1.4rem; margin-bottom: 1rem; }
+        .philosophy-item p { color: #555; }
+        
+        #by-the-numbers { background-color: white; padding: 80px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center; }
+        .stat-number { font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 700; color: var(--primary-color); line-height: 1.1; display: block; }
+        .stat-label { font-size: 1.1rem; font-weight: 500; color: var(--dark-color); }
+        
+        #meet-the-team { background-color: var(--background-light); }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .team-member { background: white; border-radius: 10px; text-align: center; padding: 2.5rem 2rem; box-shadow: 0 4px 25px rgba(0,0,0,0.07); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .team-member:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.12); }
+        .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 5px solid var(--secondary-color); }
+        .team-member h3 { margin-bottom: 0.25rem; }
+        .team-member .role { color: var(--primary-color); font-weight: 700; margin-bottom: 1rem; }
+        .team-member p { color: #555; margin-bottom: 1.5rem; }
+        .team-socials a { color: #aaa; margin: 0 0.75rem; font-size: 1.2rem; transition: color 0.3s, transform 0.3s; }
+        .team-socials a:hover { color: var(--primary-hover); transform: scale(1.2); }
+
+        #join-us .container { text-align: center; }
+        .cta-buttons { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem; }
+        
+        /* --- Footer --- */
+        footer { background-color: var(--dark-color); color: rgba(255, 255, 255, 0.6); padding: 80px 0 30px 0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 4rem; margin-bottom: 4rem; }
+        .footer-col h4 { color: var(--light-text-color); font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .footer-logo { font-size: 1.6em; }
+        .footer-col ul { list-style: none; padding: 0; } .footer-col li { margin-bottom: 1rem; }
+        .footer-col a { color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.3s ease; }
+        .footer-col a:hover, .footer-logo:hover { color: var(--primary-color); }
+        .footer-socials { margin-top: 1.5rem; display: flex; gap: 1.25rem; }
+        .footer-socials a { font-size: 1.5rem; color: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+        .footer-socials a:hover { color: var(--primary-color); transform: translateY(-3px); }
+        .subscribe-form { display: flex; }
+        .subscribe-input { flex-grow: 1; border: 1px solid #444; background: #222; padding: 0.8rem; border-radius: 5px 0 0 5px; color: var(--light-text-color); font-family: var(--font-body); }
+        .subscribe-button { background: var(--primary-color); border: none; color: white; padding: 0.8rem 1.2rem; border-radius: 0 5px 5px 0; cursor: pointer; }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid #333; }
+        
+        /* --- Media Queries --- */
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } #our-story .container { flex-direction: column; text-align: center; } }
+        @media (max-width: 768px) { main { padding-top: 80px; } section { padding: 80px 0; } .footer-grid { grid-template-columns: 1fr; text-align: center; } .subscribe-form, .footer-socials { justify-content: center; } .nav-links { position: fixed; top: 0; right: -100%; height: 100vh; width: 70%; background-color: white; flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s ease-in-out; box-shadow: -5px 0 15px rgba(0,0,0,0.1); } .nav-links.active { right: 0; } .nav-links li { margin: 1.5rem 0; } .nav-toggle { display: block; z-index: 1001; font-size: 1.5rem; cursor: pointer; color: var(--dark-color); background: none; border: none; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="container navbar">
+            <a href="home.html" class="logo">Cooking Delight</a>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+                <li><a href="about.html" aria-current="page">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle Navigation Menu"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+    <main>
+        <section class="page-header"><div class="container animated-element"><h1>The Heart and Soul of Flavor</h1><p>Learn more about our journey, our philosophy, and the people dedicated to bringing authentic Indian cuisine to your kitchen.</p></div></section>
+        
+        <section id="our-story"><div class="container"><div class="story-image animated-element"><img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1200&q=80" alt="Founder of Cooking Delight in a kitchen, smiling."></div><div class="story-content animated-element" style="transition-delay: 200ms;"><h2>Our Journey to Your Kitchen</h2><p>Cooking Delight began not in a test kitchen, but in a home kitchen, filled with the aromas of freshly ground spices and the warmth of family. It started with a simple idea: to preserve the recipes of our mothers and grandmothers—the secret dals, the festive biryanis, the everyday sabzis—that have been the heart of our family for generations.</p><p>We realized that so many people yearned for the taste of authentic home-cooked Indian food but felt intimidated by the complexity. Our mission became clear: to demystify Indian cooking and make it accessible, joyful, and a part of everyday life for everyone, everywhere. Every recipe we share is a story, every book a legacy, and every meal an invitation to our table.</p></div></div></section>
+
+        <section id="our-philosophy"><div class="container"><div class="section-header animated-element"><h2>Our Guiding Principles</h2></div><div class="philosophy-grid"><div class="philosophy-item animated-element"><div class="icon"><i class="fa-solid fa-seedling"></i></div><h4>Authenticity</h4><p>We honor tradition by staying true to original flavors and techniques, ensuring every recipe is a genuine taste of India.</p></div><div class="philosophy-item animated-element" style="transition-delay: 200ms;"><div class="icon"><i class="fa-solid fa-medal"></i></div><h4>Quality</h4><p>From well-tested recipes to high-resolution photography, we are committed to excellence in everything we create.</p></div><div class="philosophy-item animated-element" style="transition-delay: 400ms;"><div class="icon"><i class="fa-solid fa-users"></i></div><h4>Community</h4><p>We believe food connects us. We aim to build a vibrant community of food lovers to share, learn, and grow together.</p></div></div></div></section>
+        
+        <section id="by-the-numbers"><div class="container animated-element"><div class="stats-grid"><div class="stat-item"><span class="stat-number">500+</span><p class="stat-label">Authentic Recipes</p></div><div class="stat-item"><span class="stat-number">3</span><p class="stat-label">Published Books</p></div><div class="stat-item"><span class="stat-number">150k+</span><p class="stat-label">Community Members</p></div><div class="stat-item"><span class="stat-number">10+</span><p class="stat-label">Years of Experience</p></div></div></div></section>
+        
+        <section id="meet-the-team"><div class="container"><div class="section-header animated-element"><h2>Meet The Team</h2><p>We are a small, passionate group of chefs, writers, and creators united by our love for Indian food.</p></div><div class="team-grid"><div class="team-member animated-element"><img src="https://i.supaimg.com/d971ed2c-1de9-468f-90de-383c4c65b52d.jpg" alt="Headshot of Chef Priya Sharma"><h3>Chef Priya Sharma</h3><p class="role">Founder & Head Chef</p><p>The visionary behind Cooking Delight, Priya translates her family's heirloom recipes for the modern kitchen.</p><div class="team-socials"><a href="javascript:void(0);" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="javascript:void(0);" aria-label="Twitter"><i class="fab fa-twitter"></i></a></div></div><div class="team-member animated-element" style="transition-delay: 200ms;"><img src="https://i.supaimg.com/e7153891-1078-465b-abe0-67901690364d.jpg" alt="Headshot of Anjali Verma"><h3>Anjali Verma</h3><p class="role">Food Stylist & Photographer</p><p>Anjali brings our recipes to life with her stunning visuals, making every dish as beautiful as it is delicious.</p><div class="team-socials"><a href="javascript:void(0);" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="javascript:void(0);" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a></div></div><div class="team-member animated-element" style="transition-delay: 400ms;"><img src="https://i.supaimg.com/136c4605-2f5c-400d-907e-c3fc1a2e4d40.jpg" alt="Headshot of Rohan Gupta"><h3>Rohan Gupta</h3><p class="role">Content & Community</p><p>Rohan crafts our stories, runs our blog, and connects with our wonderful community of food lovers online.</p><div class="team-socials"><a href="javascript:void(0);" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="javascript:void(0);" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div></div></div></section>
+
+        <section id="join-us"><div class="container animated-element"><div class="section-header"><h2>Become Part of Our Story</h2><p>Our kitchen is always open. Whether you're a seasoned cook or just starting your culinary adventure, there's a place for you here. Explore our work and get in touch—we'd love to hear from you.</p><div class="cta-buttons"><a href="blogs.html" class="cta-button">Explore Our Recipes</a><a href="contact.html" class="cta-button" style="background-color: var(--dark-color);">Get In Touch</a></div></div></div></section>
+
+    </main>
+    
+    <footer id="footer"><div class="container"><div class="footer-grid"><div class="footer-col"><a href="home.html" class="footer-logo logo">Cooking Delight</a><p>Preserving the authenticity of Indian cuisine for food lovers worldwide.</p><div class="footer-socials"><a href="javascript:void(0);" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="javascript:void(0);" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="javascript:void(0);" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a></div></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a href="home.html">Home</a></li><li><a href="books.html">Books</a></li><li><a href="blogs.html">Blogs</a></li><li><a href="about.html">About</a></li></ul></div><div class="footer-col"><h4>Explore</h4><ul><li><a href="javascript:void(0);">All Recipes</a></li><li><a href="javascript:void(0);">Careers</a></li><li><a href="javascript:void(0);">Privacy Policy</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-col"><h4>Subscribe</h4><p>Get the latest recipes delivered to your inbox.</p><form class="subscribe-form" onsubmit="alert('Thank you for subscribing!'); return false;"><input type="email" placeholder="Your Email" aria-label="Your Email" class="subscribe-input" required><button type="submit" class="subscribe-button" aria-label="Subscribe"><i class="fa-solid fa-paper-plane"></i></button></form></div></div><div class="footer-bottom"><p>© 2024 Cooking Delight. All Rights Reserved. Crafted with ❤️ in India.</p></div></div></footer>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Smooth Page Transitions ---
+        document.body.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href && !link.href.startsWith(window.location.origin + '/#') && link.target !== '_blank' && !link.href.includes('javascript:')) {
+                const url = new URL(link.href);
+                if (url.origin === window.location.origin && url.pathname === window.location.pathname) { return; }
+                const fileExtension = url.pathname.split('.').pop();
+                if (['pdf', 'jpg', 'png', 'zip'].includes(fileExtension)) return;
+                e.preventDefault();
+                document.body.classList.add('fade-out');
+                setTimeout(() => { window.location.href = link.href; }, 400);
+            }
+        });
+
+        // --- Mobile Navigation Toggle ---
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = navToggle.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+        }
+
+        // --- On-Scroll Animations ---
+        const animatedElements = document.querySelectorAll('.animated-element');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        animatedElements.forEach(el => observer.observe(el));
+    });
+    </script>
+</body>
+</html>
